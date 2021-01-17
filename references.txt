@@ -1,0 +1,3 @@
+References:
+
+https://stackoverflow.com/questions/7884081/what-is-the-use-of-the-init-usage-in-javascript/7884217
