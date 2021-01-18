@@ -22,7 +22,22 @@ function buildBarGraph(bbId) {
     var bbOTUIds = bbSampleFiltered.otu_ids;
     var bbOTULabels = bbSampleFiltered.otu_labels;
 
-    console.log(bbSampleVals + ' ' + bbOTUIds + ' ' + bbOTULabels);
+    // Console log gives all the bar chart data in an order
+    // console.log(bbSampleVals + ' ' + bbOTUIds + ' ' + bbOTULabels);
+    var barChart = [{
+      x: bbSampleVals.slice(0, 10).reverse(),
+      y: bbOTUIds.slice(0, 10).map(id => `OTU ${id}`).reverse(),
+      text: bbOTULabels.slice(0, 10).reverse(),
+      type: "bar",
+      orientation: "h"
+    }];
+
+    var layout = {
+      title: "Top 10 OTUs found in Specific individual",
+      margin: { t: 30, l: 150 }
+    }
+
+    Plotly.newPlot("bar", barChart, layout);
   });
 }
 
