@@ -7,13 +7,14 @@
 
 // Create an initalize function
 function init() {
-  // Initial position of dropdown
+  // Initial position of dropdown(first element)
   var dropDown = d3.select("#selDataset");
 
   d3.json("samples.json").then((data) => {
     var names = data.names;
-    names.forEach((sample) => {
-      console.log(sample);
+    names.forEach((name) => {
+      // console.log(sample);
+      selector.append("option").text(name).property("value", name);
     })
   });
 }
