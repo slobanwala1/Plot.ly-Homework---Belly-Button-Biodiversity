@@ -22,7 +22,15 @@ function buildDemoInfo(bbId) {
     Object.entries(bbMetadataFiltered).forEach(([x, y]) => {
       demoTable.append("h6").style("font-weight", 700).text(`${x}: ${y}`);
     })
+
+    // ***Advanced function call ***
+    // wash frequency comes from metadata so call the Advanced Challenge function here
+    // console.log(bbMetadataFiltered.wfreq);
+    buildGauge(bbMetadataFiltered.wfreq);
   });
+
+
+
 }
 
 // function to generate the bubble graph
