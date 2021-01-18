@@ -14,9 +14,12 @@ function init() {
     var names = data.names;
     names.forEach((name) => {
       // console.log(sample);
-      selector.append("option").text(name).property("value", name);
+      // populate dropdown with all the names/numbers
+      dropDown.append("option").text(name).property("value", name);
     })
   });
+
+
 }
 
 // Function that index.html element selDataset references
