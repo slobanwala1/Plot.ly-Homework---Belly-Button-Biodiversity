@@ -3,12 +3,16 @@
 // Project Name: Plot.ly Homework - Belly Button Biodiversity
 // File: Main logic/app.js
 
+// function to grab demographics Info
+function buildDemoInfo(bbId) {
 
-// function to generate the bubble chart
+}
+
+// function to generate the bubble graph
 function buildBubbleGraph(bbId) {
-  // use d3 to read through samples and grab the relevant info for bubble chart
+  // use d3 to read through samples and grab the relevant info for bubble graph
   d3.json("samples.json").then((bbSamples) => {
-    // 3 parameters needed for bar charts
+    // 3 parameters needed for bubble graph
     var bbSampleSearch = bbSamples.samples;
     // filter by bbID
     bbSampleSearch = bbSampleSearch.filter(bbSamp => bbSamp.id == bbId);
@@ -16,17 +20,17 @@ function buildBubbleGraph(bbId) {
     // store that object to grab its data
     var bbSampleFiltered = bbSampleSearch[0];
 
-    // grab the info for bubble chart now
+    // grab the info for bubble graph now
     var bbSampleVals = bbSampleFiltered.sample_values;
     var bbOTUIds = bbSampleFiltered.otu_ids;
     var bbOTULabels = bbSampleFiltered.otu_labels;
 
-    // Console log gives all the bubble chart data in an order
+    // Console log gives all the bubble graph data in an order
     //console.log(bbSampleVals + ' ' + bbOTUIds + ' ' + bbOTULabels);
 
     // We can grab all the data for the bubbles not the first 10. Tried to make
     // it look as close to the template in the instructions as possible
-    var bubbleChart = [{
+    var bubbleGraph = [{
       x: bbOTUIds,
       y: bbSampleVals,
       text: bbOTULabels,
@@ -48,16 +52,16 @@ function buildBubbleGraph(bbId) {
       hovermode: "closest"
     }
 
-    Plotly.newPlot("bubble", bubbleChart, layout);
+    Plotly.newPlot("bubble", bubbleGraph, layout);
   });
 }
 
 // function to generate the bar graph
 function buildBarGraph(bbId) {
   // console.log('new bbId: '+bbId);
-  // use d3 to read through samples and grab the relevant info for bar chart
+  // use d3 to read through samples and grab the relevant info for bar graph
   d3.json("samples.json").then((bbSamples) => {
-    // 3 parameters needed for bar charts
+    // 3 parameters needed for bar graph
     var bbSampleSearch = bbSamples.samples;
     // filter by bbID
     bbSampleSearch = bbSampleSearch.filter(bbSamp => bbSamp.id == bbId);
@@ -65,16 +69,16 @@ function buildBarGraph(bbId) {
     // store that object to grab its data
     var bbSampleFiltered = bbSampleSearch[0];
 
-    // grab the info for bar chart now
+    // grab the info for bar graph now
     var bbSampleVals = bbSampleFiltered.sample_values;
     var bbOTUIds = bbSampleFiltered.otu_ids;
     var bbOTULabels = bbSampleFiltered.otu_labels;
 
-    // Console log gives all the bar chart data in an order
+    // Console log gives all the bar graph data in an order
     //console.log(bbSampleVals + ' ' + bbOTUIds + ' ' + bbOTULabels);
 
     // Grab the first 10 values as they've been ordered and reverse them because they've been ordered desc
-    var barChart = [{
+    var barGraph = [{
       x: bbSampleVals.slice(0, 10).reverse(),
       y: bbOTUIds.slice(0, 10).map(id => `OTU ${id}`).reverse(),
       text: bbOTULabels.slice(0, 10).reverse(),
@@ -87,7 +91,7 @@ function buildBarGraph(bbId) {
       margin: { t: 30, l: 150 }
     }
 
-    Plotly.newPlot("bar", barChart, layout);
+    Plotly.newPlot("bar", barGraph, layout);
   });
 }
 
