@@ -3,8 +3,6 @@
 // Project Name: Plot.ly Homework - Belly Button Biodiversity
 // File: Advanced Challenge Assignment/aca.js
 
-
-
 // Function to set up gauge with data, called from app.js
 function buildGauge(bbWfreq) {
   console.log(bbWfreq);
@@ -13,6 +11,7 @@ function buildGauge(bbWfreq) {
 
   // convert string to a float if needed, since we don't know if it has decimals or not
   // since its 0 - 9, we can see its a half circle = 180 deg, so we use that as the standard
+  // Basically 180 / 20 or 20 x bbWfreq so thats in 180 deg
   var bbWfreqLevel = parseFloat(bbWfreq) * 20;
 
   var degrees = 180 - bbWfreqLevel;
@@ -40,17 +39,21 @@ function buildGauge(bbWfreq) {
 
   var data = [{
     type: "scatter",
+    // Grid coordinate should be 0, 0
     x: [0],
     y: [0],
-    marker: { size: 12, color: "850000" },
+    // Make it look like template
+    marker: { size: 11, color: "850000" },
     showlegend: true,
-    name: "wFreq",
-    text: bbWfreqLevel,
-    hoverinfo: "text+name"
+    name: "Avg wFreq",
+    text: bbWfreq,
+    // Display the wFreq and name
+    hoverinfo: "name+text"
   },
   {
     values: [50 / 9, 50 / 9, 50 / 9, 50 / 9, 50 / 9, 50 / 9, 50 / 9, 50 / 9, 50 / 9, 50],
         rotation: 90,
+        // The intervals/pieces of the pie
         text: ["8-9", "7-8", "6-7", "5-6", "4-5", "3-4", "2-3", "1-2", "0-1", ""],
         textinfo: "text",
         textposition: "inside",
@@ -81,8 +84,12 @@ function buildGauge(bbWfreq) {
         // Get the right labels, like we talked about before half circle 180/20
         labels: ["8-9", "7-8", "6-7", "5-6", "4-5", "3-4", "2-3", "1-2", "0-1", ""],
         hoverinfo: "label",
+        // Distance from ticket, 0 puts it inside pie and higher value makes further distance,
+        // so keep at 0.5 so its directly touching
         hole: 0.5,
+        // To look like the half circle must be a pie
         type: "pie",
+        // Legend just cause it looks nice, and easier to see
         showlegend: true
   }];
 
@@ -99,6 +106,9 @@ function buildGauge(bbWfreq) {
     title: "<b>Belly Button Washing Frequency</b><br>Scrubs per Week",
     height: 550,
     width: 550,
+    // Don't show any of the grid, it shows the lines of the pie being created
+    // Make range of tick -1, 1 so it touches the range, rather than having space between the
+    // tick and pie also its as accurate as possible as 0, 0 goes over the threshold as it rounds up
     xaxis: {
       zeroline: false,
       showticklabels: false,
@@ -112,6 +122,9 @@ function buildGauge(bbWfreq) {
       range: [-1, 1]
     }
   };
+
+// Store into html object and plot
 var updatedGauge = document.getElementById("gauge");
+
 Plotly.newPlot(updatedGauge, data, layout);
 }
