@@ -5,14 +5,13 @@
 
 // function to generate the bargraph
 function buildBarGraph(bbId) {
-
+  console.log('new bbId: '+bbId);
   // use d3 to read through samples and grab the relevant info for bar chart
   d3.json("samples.json").then((bbSamples) => {
     // 3 parameters needed for bar charts
     var bbSampleSearch = bbSamples.samples;
-
     // filter vy bbID
-    bbSampleSearch = bbSampleSearch.filter(bbSamp => bbSamp.id = bbId);
+    bbSampleSearch = bbSampleSearch.filter(bbSamp => bbSamp.id == bbId);
 
     // store that object to grab its data
     var bbSampleFiltered = bbSampleSearch[0];
@@ -23,7 +22,8 @@ function buildBarGraph(bbId) {
     var bbOTULabels = bbSampleFiltered.otu_labels;
 
     // Console log gives all the bar chart data in an order
-    // console.log(bbSampleVals + ' ' + bbOTUIds + ' ' + bbOTULabels);
+    console.log(bbSampleVals);
+    //console.log(bbSampleVals + ' ' + bbOTUIds + ' ' + bbOTULabels);
     var barChart = [{
       x: bbSampleVals.slice(0, 10).reverse(),
       y: bbOTUIds.slice(0, 10).map(id => `OTU ${id}`).reverse(),
@@ -63,7 +63,8 @@ function init() {
 
 // Function that index.html element selDataset references
 function optionChanged(bbId) {
-
+  console.log('hit'+bbId);
+  buildBarGraph(bbId);
 }
 
 // Call said initialize function
