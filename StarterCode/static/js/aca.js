@@ -12,6 +12,7 @@ function buildGauge(bbWfreq) {
   if(bbWfreq == null) { bbWfreq = 0; }
 
   // convert string to a float if needed, since we don't know if it has decimals or not
+  // since its 0 - 9, we can see its a half circle = 180 deg, so we use that as the standard
   var bbWfreqLevel = parseFloat(bbWfreq) * 20;
 
   var degrees = 180 - bbWfreqLevel;
@@ -24,15 +25,21 @@ function buildGauge(bbWfreq) {
 
   var y = radius * Math.sin(radians);
 
-  var mainPath = "M -.0 -0.05 L .0 0.05 L ";
-  var pathX = String(x);
+  // Angle of the tick
+  var mainPath = "M -.03 -0.03 L .03 0.03 L ";
+
+  var xPath = String(x);
+
   var space = " ";
-  var pathY = String(y);
+
+  var yPath = String(y);
+
   var pathEnd = " Z";
-  var path = mainPath.concat(pathX, space, pathY, pathEnd);
+
+  var finalPath = mainPath.concat(xPath, space, yPath, pathEnd);
 
   var data = [{
-    type: "indicator",
+    type: "scatter",
     x: [0],
     y: [0],
     marker: { size: 12, color: "850000" },
@@ -47,20 +54,31 @@ function buildGauge(bbWfreq) {
         text: ["8-9", "7-8", "6-7", "5-6", "4-5", "3-4", "2-3", "1-2", "0-1", ""],
         textinfo: "text",
         textposition: "inside",
+        // get the right rgb values
         marker: {
           colors: [
-            "rgba(0, 105, 11, .5)",
-            "rgba(10, 120, 22, .5)",
-            "rgba(14, 127, 0, .5)",
-            "rgba(110, 154, 22, .5)",
-            "rgba(170, 202, 42, .5)",
-            "rgba(202, 209, 95, .5)",
-            "rgba(210, 206, 145, .5)",
-            "rgba(232, 226, 202, .5)",
-            "rgba(240, 230, 215, .5)",
+            "rgba(0, 105, 11, .6)",
+
+            "rgba(11, 120, 22, .6)",
+
+            "rgba(15, 127, 0, .6)",
+
+            "rgba(109, 154, 22, .6)",
+
+            "rgba(167, 202, 42, .6)",
+
+            "rgba(200, 209, 95, .6)",
+
+            "rgba(211, 206, 145, .6)",
+
+            "rgba(235, 226, 202, .6)",
+
+            "rgba(242, 230, 215, .6)",
+
             "rgba(255, 255, 255, 0)"
           ]
         },
+        // Get the right labels, like we talked about before half circle 180/20
         labels: ["8-9", "7-8", "6-7", "5-6", "4-5", "3-4", "2-3", "1-2", "0-1", ""],
         hoverinfo: "label",
         hole: 0.5,
@@ -68,34 +86,32 @@ function buildGauge(bbWfreq) {
         showlegend: true
   }];
 
-var layout = {
-      shapes: [
-        {
-          type: "path",
-          path: path,
-          fillcolor: "850000",
-          line: {
-            color: "850000"
-          }
-        }
-      ],
-      title: "Belly Button Washing Frequency Scrubs per Week",
-      height: 500,
-      width: 500,
-      xaxis: {
-        zeroline: false,
-        showticklabels: false,
-        showgrid: false,
-        range: [-1, 1]
-      },
-      yaxis: {
-        zeroline: false,
-        showticklabels: false,
-        showgrid: false,
-        range: [-1, 1]
+  var layout = {
+    shapes: [
+    {
+      type: "path",
+      path: finalPath,
+      fillcolor: "800000",
+      line: {
+        color: "800000"
       }
-    };
-
+    }],
+    title: "<b>Belly Button Washing Frequency</b><br>Scrubs per Week",
+    height: 550,
+    width: 550,
+    xaxis: {
+      zeroline: false,
+      showticklabels: false,
+      showgrid: false,
+      range: [-1, 1]
+    },
+    yaxis: {
+      zeroline: false,
+      showticklabels: false,
+      showgrid: false,
+      range: [-1, 1]
+    }
+  };
 var updatedGauge = document.getElementById("gauge");
 Plotly.newPlot(updatedGauge, data, layout);
 }
