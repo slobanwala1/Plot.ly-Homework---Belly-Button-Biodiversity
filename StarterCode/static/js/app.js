@@ -24,7 +24,8 @@ function buildBubbleGraph(bbId) {
     // Console log gives all the bubble chart data in an order
     //console.log(bbSampleVals + ' ' + bbOTUIds + ' ' + bbOTULabels);
 
-    // we can grab all the data for the bubbles not the first 10.
+    // We can grab all the data for the bubbles not the first 10. Tried to make
+    // it look as close to the template in the instructions as possible
     var bubbleChart = [{
       x: bbOTUIds,
       y: bbSampleVals,
@@ -46,6 +47,8 @@ function buildBubbleGraph(bbId) {
       },
       hovermode: "closest"
     }
+
+    Plotly.newPlot("bubble", bubbleChart, layout);
   });
 }
 
@@ -105,6 +108,7 @@ function init() {
     var firstId = bbId[0];
     // console.log(firstId);
     buildBarGraph(firstId);
+    buildBubbleGraph(firstId);
   });
 }
 
@@ -112,6 +116,7 @@ function init() {
 function optionChanged(bbId) {
   // console.log(bbId);
   buildBarGraph(bbId);
+  buildBubbleGraph(bbId);
 }
 
 // Call said initialize function
