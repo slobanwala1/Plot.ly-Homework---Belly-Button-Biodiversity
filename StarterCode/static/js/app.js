@@ -5,7 +5,24 @@
 
 // function to grab demographics Info
 function buildDemoInfo(bbId) {
+  // use d3 to read through samples and grab the relevant info for demographic data
+  d3.json("samples.json").then((bbSamples) => {
+    // grab metadata instead of samples
+    var bbMetadata = bbSamples.metadata;
+    // filter by bbID
+    bbMetadata = bbMetadata.filter(bbMeta => bbMeta.id == bbId);
 
+    // store that object to grab its data
+    var bbMetadataFiltered = bbMetadata[0];
+    // console.log(bbSampleFiltered);
+    // grab the html element we're going to store all the data in
+    var demoTable = d3.select("#sample-metadata");
+    // Populate the table and fix the html
+    demoTable.html("");
+    Object.entries(bbMetadataFiltered).forEach(([x, y]) => {
+      demoTable.append("h6").style("font-weight", 700).text(`${x}: ${y}`);
+    })
+  });
 }
 
 // function to generate the bubble graph
@@ -111,6 +128,7 @@ function init() {
     // Populate the bar chart with the first name/number as the starting point on load.
     var firstId = bbId[0];
     // console.log(firstId);
+    buildDemoInfo(firstId);
     buildBarGraph(firstId);
     buildBubbleGraph(firstId);
   });
@@ -119,6 +137,9 @@ function init() {
 // Function that index.html element selDataset references
 function optionChanged(bbId) {
   // console.log(bbId);
+
+  // build demographics table, then graphs
+  buildDemoInfo(bbId);
   buildBarGraph(bbId);
   buildBubbleGraph(bbId);
 }
