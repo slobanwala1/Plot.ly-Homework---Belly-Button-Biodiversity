@@ -3,9 +3,46 @@
 // Project Name: Plot.ly Homework - Belly Button Biodiversity
 // File: Main logic/app.js
 
-// function to generate the bargraph
+
+// function to generate the bubble chart
+function buildBubbleGraph(bbId) {
+  // use d3 to read through samples and grab the relevant info for bubble chart
+  d3.json("samples.json").then((bbSamples) => {
+    // 3 parameters needed for bar charts
+    var bbSampleSearch = bbSamples.samples;
+    // filter vy bbID
+    bbSampleSearch = bbSampleSearch.filter(bbSamp => bbSamp.id == bbId);
+
+    // store that object to grab its data
+    var bbSampleFiltered = bbSampleSearch[0];
+
+    // grab the info for bar chart now
+    var bbSampleVals = bbSampleFiltered.sample_values;
+    var bbOTUIds = bbSampleFiltered.otu_ids;
+    var bbOTULabels = bbSampleFiltered.otu_labels;
+
+    // Console log gives all the bar chart data in an order
+    //console.log(bbSampleVals + ' ' + bbOTUIds + ' ' + bbOTULabels);
+    var barChart = [{
+      x: bbSampleVals.slice(0, 10).reverse(),
+      y: bbOTUIds.slice(0, 10).map(id => `OTU ${id}`).reverse(),
+      text: bbOTULabels.slice(0, 10).reverse(),
+      type: "bar",
+      orientation: "h"
+    }];
+
+    var layout = {
+      title: "Top 10 OTUs found in Specific individual",
+      margin: { t: 30, l: 150 }
+    }
+
+    Plotly.newPlot("bar", barChart, layout);
+  });
+}
+
+// function to generate the bar graph
 function buildBarGraph(bbId) {
-  console.log('new bbId: '+bbId);
+  // console.log('new bbId: '+bbId);
   // use d3 to read through samples and grab the relevant info for bar chart
   d3.json("samples.json").then((bbSamples) => {
     // 3 parameters needed for bar charts
@@ -22,7 +59,6 @@ function buildBarGraph(bbId) {
     var bbOTULabels = bbSampleFiltered.otu_labels;
 
     // Console log gives all the bar chart data in an order
-    console.log(bbSampleVals);
     //console.log(bbSampleVals + ' ' + bbOTUIds + ' ' + bbOTULabels);
     var barChart = [{
       x: bbSampleVals.slice(0, 10).reverse(),
@@ -63,7 +99,7 @@ function init() {
 
 // Function that index.html element selDataset references
 function optionChanged(bbId) {
-  console.log('hit'+bbId);
+  // console.log(bbId);
   buildBarGraph(bbId);
 }
 
