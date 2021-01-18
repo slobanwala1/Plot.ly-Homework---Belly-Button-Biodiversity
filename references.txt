@@ -2,3 +2,4 @@ References:
 
 https://stackoverflow.com/questions/7884081/what-is-the-use-of-the-init-usage-in-javascript/7884217
 https://stackoverflow.com/questions/62780280/update-plotly-gauge-chart-value-dynamically-python
+https://www.tutorialsteacher.com/d3js/loading-data-from-file-in-d3js
